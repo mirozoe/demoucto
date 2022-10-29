@@ -1,0 +1,4 @@
+\selectlanguage *{czech}
+\contentsline {section}{\numberline {1}Úvod}{3}{}%
+\contentsline {section}{\numberline {2}Instalace}{3}{}%
+\contentsline {subsection}{\numberline {2.1}První krok}{3}{}%

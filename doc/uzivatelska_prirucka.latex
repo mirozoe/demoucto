@@ -1,0 +1,119 @@
+\documentclass{article}
+
+\usepackage{fontspec}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{wrapfig}
+\usepackage{polyglossia}
+\usepackage{listings}
+\usepackage[a4paper, margin=2cm]{geometry}
+\setmainlanguage{czech}
+
+\PolyglossiaSetup{czech}{indentfirst=true}
+
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+
+\title{%
+	Uživatelská příručka Demoucto\\
+
+  \small{Hotelová škola, Obchodní akademie a Střední průmyslová škola, Teplice, Benešovo náměstí 1, p.o., Teplice}
+}
+
+\begin{document}
+
+\maketitle
+\clearpage
+
+\section{Úvod}
+Vážení uživatelé, dostává se Vám do rukou demonstrativní účetní software, který vznikl (vzniká) na naší škole pro potřeby studentů obchodní akademie. Škola má zajisté zakoupený komerční produkt s funkcionalitou, která zcela pokrývá její potřeby. Do nedávné doby, nevyvstala potřeba řešit účetnictví, to se změnilo v době kovidové, kdy zakoupené licence účetního software jsou nepřenosné a žáci tak neměli možnost seznámit se se základní prací s takovým softwarem. Proto jsme přistoupili k možnosti využít znalostí zaměstnanců IT oboru na naší škole a připravili jednoduchou alternativu, která má svobodnou licenci a může ji používat kdokoliv.\\
+
+Účelem aplikace není poskytovat služby konkurující komerčnímu software na poli účetnictví. Hlavní myšlenkou je poskytnout studentům jednoduchou pomůcku pro vytvoření představy, jak s takovým softwarem pracovat. Aktuálně aplikace umožňuje vkládat účetní položky do lokální databáze a procházet je v účetním deníku s možností editace záznamů. Dále pak poskytuje možnost získat přehled za specifické období na jednotlivých syntetických účtech a obratu daného účtu za totéž období.\\
+
+\section{Instalace}
+Zdrojový kód je dostupný na GitHub.com. Pro stažení je vhodné použít git, ale není to nezbytně nutné. Pro spuštění je zapotřebí mít nainstalovaný Python3 interpreter.
+
+\begin{lstlisting}[language=bash]
+> git clone https://github.com/mirozoe/demoucto.git 
+# pripadne muzete stahnout ZIP archiv primo z GitHub
+# z adresare demoucto spuste nasledujici prikaz, který nainstaluje vyzadovane knihovny
+> pip install -r requirements.txt
+\end{lstlisting}
+
+\section{Použití aplikace}
+Před spuštěním aplikace je potřeba vytvořit kopii předdefinované datábáze s různými typy účtů dle účetní osnovy. Kopie musí nést jméno \verb_accounting.db_\\
+
+\begin{lstlisting}[language=bash]
+> cp data/backup.db data/accounting.db
+\end{lstlisting}
+
+Aplikace se spouští z adresáře \verb_demoucto_ následujícím příkazem:
+\begin{lstlisting}[language=bash]
+> python3 src/demoucto.py
+\end{lstlisting}
+
+Po spuštění se otevře hlavní okno s menu na jeho horní straně.
+
+\begin{figure}[hb]%
+\centering
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=.98\linewidth]{hlavni_okno.jpg}
+\caption{Hlavní okno}
+\end{minipage}%
+\hfill
+\end{figure}
+
+\subsection{Menu Soubor}
+Umožňuje ukončit aplikaci.
+
+\subsection{Menu Doklady}
+Použijte pro vkládání nového dokladu do databáze. Rozkliknutím menu \verb_doklady_ otevřete podmenu \verb_nový doklad_ (příp. použijte klávesovou zkratku CTRL+N), které otevře vyskakovací okno. V něm je předdefinováno vygenerované číslo účetního dokladu ve formátu YYYYMMDDZZZ (ZZZ je pořadové číslo dokladu evidovaného v jednom dni). V položce datum uskutečnění vložte datum, kdy se účetní operace vyskytla. \verb_Typ_ dokladu charakterizuje typ účetního dokladu. Kolonka \verb_Cena_ je určena pro částku v Kč odpovídající účetní operaci. V kolonkách účtů vložte čísla účtů, na která se bude účetní doklad účtovat. Začněte vyplňovat jméno účtu, případně jeho číslo a je-li přítomen v databázi bude Vám nabídnut k výběru. Poslední pole \verb_Poznámka_ je nepovinné a zde můžete vložit doplňkový popis operace. Všechna pole s výjimkou \verb_Poznámka_ jsou povinná. Kliknutím na tlačítko \verb_Ulož_ se záznam vloží do databáze. Storno zahodí všechny vložené údaje.
+
+\begin{figure}[hb]%
+\centering
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=.98\linewidth]{novy_doklad.jpg}
+\caption{Vkládání nového dokladu}
+\end{minipage}%
+\hfill
+\end{figure}
+
+\subsection{Menu Přehled}
+Z tohoto menu máte přístup k \verb_Účetní deník_ a \verb_Přehled účtu_. V účetním deníku je uveden přehled všech evidovaných účetních dokladů uvedených chronologicky. V případě, že je potřeba údaje změnit, dvojklikem myší na konkrétní záznam se otevře další vyskakovací okno (stejné jako v případě vkládání nového záznamu), ve kterém můžete změnit podrobnosti o dokladu. Kliknutím na \verb_Ulož_ budou údaje vloženy do databáze. Záznamy z databáze není možno mazat tak, aby aplikace reflektovala účetní zásady. 
+
+\begin{figure}[hb]%
+\centering
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=.98\linewidth]{ucetni_denik.jpg}
+\caption{Účetní deník}
+\end{minipage}%
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=.98\linewidth]{editace.jpg}
+\caption{Editace záznamu v účetním deníku}
+\end{minipage}%
+\end{figure}
+\clearpage
+
+V případě \verb_Přehled účtu_ jste požádáni o vložení syntetického účtu (opět po zadání jména či čísla, jsou navržena možná řešení) a časového období (jsou předdefinovány začátek aktuálního měsíce a aktuální datum). Po jejich zadání se zobrazí všechny záznamy ke konkrétnímu účtu na straně Má dáti i Dal včetně obratu účtu.
+
+\begin{figure}[hb]%
+\centering
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=.98\linewidth]{prehled_uctu.jpg}
+\caption{Přehled účtu}
+\end{minipage}%
+\end{figure}
+
+\section{Závěr}
+Předložená aplikace nemá za cíl poskytnout plnohodnotnou náhradu účetního software, ale má poskytnout studijní materiál, není tedy určena pro komerční použití. Tím, že je zdrojový kód dostupný pod licencí GNUPLv2 je možno jej měnit a využívat kdekoliv je to vhodné. 
+
+\end{document}
